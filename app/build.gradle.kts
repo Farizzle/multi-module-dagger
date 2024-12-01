@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":features:location:dagger"))
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
 
