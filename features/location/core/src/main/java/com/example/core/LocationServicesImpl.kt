@@ -1,14 +1,22 @@
-package com.example.core
+package com.example.features.location.core
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import com.example.api.LocationService
+import com.example.api.PermissionHandler
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocationServicesImpl @Inject constructor(private val context: Context): LocationService {
+@Singleton
+class LocationServiceImpl @Inject constructor(
+    context: Context,
+    private val permissionHandler: PermissionHandler
+) : LocationService {
 
     private var locationManager: LocationManager? = null
     private var locationListener: LocationListener? = null
@@ -34,21 +42,32 @@ class LocationServicesImpl @Inject constructor(private val context: Context): Lo
         }
     }
 
-    override fun startLocationUpdates() {
-        try {
-            locationManager?.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                0L,
-                0f,
-                locationListener!!
-            )
-        } catch (e: SecurityException) {
-            e.printStackTrace()
-            // Handle lack of permission
+    @SuppressLint("MissingPermission")
+    override fun startLocationUpdates(activity: Activity) {
+        if (permissionHandler.hasLocationPermissions()) {
+            try {
+                locationManager?.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0L,
+                    0f,
+                    locationListener!!
+                )
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+                // Handle lack of permission
+            }
+        } else {
+            permissionHandler.requestLocationPermissions(activity)
         }
     }
 
     override fun stopLocationUpdates() {
-        locationManager?.removeUpdates(locationListener!!)
+        locationListener?.let {
+            locationManager?.removeUpdates(it)
+        }
+    }
+
+    override fun handlePermissionResult(requestCode: Int, grantResults: IntArray): Boolean {
+        return permissionHandler.handlePermissionResult(requestCode, grantResults)
     }
 }

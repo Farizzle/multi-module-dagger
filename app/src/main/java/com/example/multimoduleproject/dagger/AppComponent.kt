@@ -1,7 +1,7 @@
 package com.example.multimoduleproject.dagger
 
-import com.example.dagger.LocationModule
 import com.example.multimoduleproject.MainActivity
+import com.example.dagger.LocationModule
 import com.example.multimoduleproject.core.MyApplication
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
