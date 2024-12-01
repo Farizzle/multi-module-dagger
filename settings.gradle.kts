@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "MultiModuleProject"
 include(":app")
+include(":features")
+include(":features:location")
+include(":features:location:core")
+include(":features:location:api")
+include(":features:location:dagger")
