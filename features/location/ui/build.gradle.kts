@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.example.dagger"
+    namespace = "com.example.ui"
     compileSdk = 35
 
     defaultConfig {
@@ -35,8 +36,7 @@ android {
 
 dependencies {
     implementation(project(":features:location:api"))
-    implementation(project(":features:location:core"))
-    implementation(project(":features:location:ui"))
+
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
 
@@ -46,4 +46,11 @@ dependencies {
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)
     implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

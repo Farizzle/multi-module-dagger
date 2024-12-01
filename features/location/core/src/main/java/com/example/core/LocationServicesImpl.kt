@@ -9,6 +9,8 @@ import android.location.LocationManager
 import android.os.Bundle
 import com.example.api.LocationService
 import com.example.api.PermissionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,23 +23,24 @@ class LocationServiceImpl @Inject constructor(
     private var locationManager: LocationManager? = null
     private var locationListener: LocationListener? = null
 
+    private val _isLocationActive = MutableStateFlow(false)
+    override val isLocationActive: MutableStateFlow<Boolean> get() = _isLocationActive
+
     init {
         locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                // Handle location update
+                _isLocationActive.value = true
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
-                // Handle status change
             }
 
             override fun onProviderEnabled(provider: String) {
-                // Handle provider enabled
             }
 
             override fun onProviderDisabled(provider: String) {
-                // Handle provider disabled
+                _isLocationActive.value = false
             }
         }
     }
@@ -52,9 +55,10 @@ class LocationServiceImpl @Inject constructor(
                     0f,
                     locationListener!!
                 )
+                _isLocationActive.value = true
             } catch (e: SecurityException) {
                 e.printStackTrace()
-                // Handle lack of permission
+                _isLocationActive.value = false
             }
         } else {
             permissionHandler.requestLocationPermissions(activity)
@@ -65,9 +69,11 @@ class LocationServiceImpl @Inject constructor(
         locationListener?.let {
             locationManager?.removeUpdates(it)
         }
+        _isLocationActive.value = false
     }
 
     override fun handlePermissionResult(requestCode: Int, grantResults: IntArray): Boolean {
         return permissionHandler.handlePermissionResult(requestCode, grantResults)
     }
+
 }
