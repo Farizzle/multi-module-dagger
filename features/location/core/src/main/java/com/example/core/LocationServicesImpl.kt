@@ -10,7 +10,6 @@ import android.os.Bundle
 import com.example.api.LocationService
 import com.example.api.PermissionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
