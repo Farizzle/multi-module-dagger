@@ -16,6 +16,11 @@
             <option value="$PROJECT_DIR$/features/location/core" />
             <option value="$PROJECT_DIR$/features/location/dagger" />
             <option value="$PROJECT_DIR$/features/location/ui" />
+            <option value="$PROJECT_DIR$/features/weather" />
+            <option value="$PROJECT_DIR$/features/weather/api" />
+            <option value="$PROJECT_DIR$/features/weather/core" />
+            <option value="$PROJECT_DIR$/features/weather/dagger" />
+            <option value="$PROJECT_DIR$/features/weather/ui" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

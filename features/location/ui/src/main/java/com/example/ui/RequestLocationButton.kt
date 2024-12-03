@@ -12,15 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import com.example.ui.LocationViewModel
 import com.example.ui.LocationViewModelFactory
+import javax.inject.Provider
 
 @Composable
 fun RequestLocationButton(
     context: Context,
-    viewModelFactory: LocationViewModelFactory
+    viewModelFactory: Provider<LocationViewModelFactory>
 ) {
-    val viewModel: LocationViewModel = viewModelFactory.create(LocationViewModel::class.java)
+    val factory = viewModelFactory.get()
+    val viewModel: LocationViewModel = factory.create(LocationViewModel::class.java)
     val activity = context as? Activity
 
     val isLocationActive by viewModel.isLocationActive.collectAsState()

@@ -8,7 +8,6 @@ import com.example.api.PermissionHandler
 import javax.inject.Inject
 
 class LocationViewModel @Inject constructor(
-    private val application: Application,
     private val locationService: LocationService,
     private val permissionHandler: PermissionHandler
 ) : ViewModel() {
